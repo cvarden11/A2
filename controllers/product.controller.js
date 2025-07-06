@@ -9,7 +9,6 @@ export const getProductById = async (req, res) => {
 
     if (isNaN(product_id)) {
         return res.status(400).json({
-            success: false,
             message: "Invalid ID",
         });
     }
@@ -17,14 +16,17 @@ export const getProductById = async (req, res) => {
 
     try {
         const product = await Product.findOne({ id: id })
+        if(!product){
+            return res.status(404).json({
+            message: "No product with that id",
+        });
+        }
         res.status(200).json({
-            success: true,
             message: "Product Fetched Successfully",
             data: product
         })
     } catch (err) {
         res.status(500).json({
-            success: false,
             message: "Internal server error"
         })
     }
@@ -37,7 +39,6 @@ export const createProduct = async (req, res) => {
     if (!product.title || !product.image || !product.description || !product.price || !product.stock || !product.id) {
         return res.status(400).json(
             {
-                success: false,
                 message: "Invalid request: please provide all fields"
             }
         )
@@ -48,13 +49,11 @@ export const createProduct = async (req, res) => {
     try {
         await newProduct.save()
         res.status(200).json({
-            success: true,
             message: "Product Successfully added to database",
             data: addProduct
         })
     } catch (err) {
         res.status(500).json({
-            success: false,
             message: "Internal Server Error"
         })
     }
