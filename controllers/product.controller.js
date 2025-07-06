@@ -53,6 +53,8 @@ export const createProduct = async (req, res) => {
             data: addProduct
         })
     } catch (err) {
+        
+            console.log(err);
         res.status(500).json({
             message: "Internal Server Error"
         })
