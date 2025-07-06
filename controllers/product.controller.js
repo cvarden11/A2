@@ -47,7 +47,7 @@ export const createProduct = async (req, res) => {
     const addProduct = new Product(product)
 
     try {
-        await newProduct.save()
+        await addProduct.save()
         res.status(200).json({
             message: "Product Successfully added to database",
             data: addProduct
